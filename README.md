@@ -1,86 +1,4 @@
-
-#iOS Messaging Tutorial
-
-In this tutorial, you will learn how to use the [Sinch](https://www.sinch.com/) iOS SDK to an build instant messaging app. The estimated time to finish this tutorial is about 1 - 2 hours.
-
-####Prerequisites
- * Solid understanding of basic concepts in Objective-C language and object-oriented programing.
- * Entry level knowledge and experience of developing iOS apps. Familiarity with delegation, storyboard, IBOutlets and IBActions, view controllers and segues, function callback blocks, etc.
- * Access to a Mac Computer with Xcode 6.x installed.
- * Access to one or more iOS 8.x devices is  recommended but not required.
-
-####Outcome
-By the end of this tutorial, you will have built an instant messaging app that looks like the following.
-![alt text](Images/AppUserInterface.png "App User Interface")
-
-
-
-##Preparation
-
-In addition to the Sinch SDK, we will also use another third party SDK called [Parse](https://parse.com), as a zero-configuration cloud database, to store all the signed-up users and all the historical messages between each pair of users.
-
-**Optional:** as a handy reference, create a new favorite folder named **ios-messaging-tutorial** or **Sinch** in your browser and add the following pages:
- * [iOS messaging tutorial](https://github.com/sinch/ios-messaging-tutorial)
- * [Sinch SDK user guide](https://www.sinch.com/docs/ios/user-guide/)
- * [Sinch SDK reference](https://download.sinch.com/docs/iOS/latest/reference/html/index.html)
- * [Parse SDK quick start guide](https://www.parse.com/apps/quickstart#social/mobile/ios/native/new)
- * [Parse SDK guide](https://www.parse.com/docs/ios_guide#top/iOS)
-
-The whole tutorial app source code can be downloaded at https://github.com/sinch/ios-messaging-tutorial. To get you start quickly and focus on how to use the SDKs, a project template **BoilerPlate** is provided for you along with the finished project **iOS-Messaging-tutorial** as the final reference. For this tutorial, we will mainly work with **BoilerPlate**.
-To run the both of this project make sure you run `pod install` in your project directory. 
-
-
-##Project Setup
-
-
-###Template overview
-Download/clone the project from https://github.com/gt-liu/MiniChat. You can try the completed MiniChat app first. Under Building Settings pane of the project and all the targets, make sure the value of the **Achitectures** key is set to "armv7, armv7s" and **Provisioning Profile** is set to 'Automatic'. Make sure these two keys are correctly set in both the **MiniChat** and the **MiniChatTemplate** projects.
-
-
-Open the project file *boilerplage/ios-sinch-messaging-tutorial.xcodeproj*. Your Xcode 6.x should be launched now.
-
-Verify that the *iOS Deployment Target* under the **Info** pane in the ios-messaging-tutorial project and the *Deployment Target* under **General** pane in MiniChat target are both '8.0'.
-
-![alt text](Images/IMG1.png "")
-
-![alt text](Images/IMG2.png "IMG2")
-
-Open *Main.storyboard*, you should see 4 view controllers. The navigation controller is the initial view controller and it contains the other 3 view controllers we will use: the Login View Controller, the Chat Mate List View Contoller, and finally the Dialog View Controller, each with a pair of corresponding Objective-C class files as shown in the project navigator on the left. Notice how the 3 view controllers are linked and ordered by two Show Segues (Push Segues).
-
-![alt text](Images/ProjectOverview.png "Project Overview")
-
-As you can see in the project navigator, there are 5 classes - AppDelegate, MNCChatMessageCell, MNCLoginViewController, MNCChatMateListViewController, and MNCDialogViewController. They are almost empty except those IBOutlets (UI element connections).
-
-
-###SDK setup
-
-Let's start with setting up the two SDKs - Sinch and Parse.
-
-#####Setting up Sinch
-
-Signup and login to your [Sinch](https://www.sinch.com/) account. In your Dashboard, open the **APPS** pane on the left. Create an app with 'MiniChat' as the name and select sandbox as the environment. Click the keyshape button next to the newly created app. You should see the credentials for your app, which includes the Hostname, the Key and the Secret. Save these 3 strings for later use.
-
-Follow the [First Time Setup section](https://www.sinch.com/docs/ios/user-guide/#firsttimesetup) of Sinch iOS SDK user guide.
-
-Notice that Sinch is available as a [CocoaPods](http://www.cocoapods.org/). So if you are using CocoaPod, which is recommended, simply add the following line to your Podfile:
-
-```pod 'SinchRTC'```
-
-Alternatively, if you don't use CocoaPod, you can manually add the SDK to your project by:
-
- * Adding Sinch.framework to the **Frameworks** group in the project navigator.
- * Adding Sinch.framework, AudioToolbox.framework, AVFoundation.framework and Security.framework to the **Link Binary With Libraries** list under **Build Phases** pane in the ios-sinch-messaging-tutorial target of your Xcode project.
- * Adding '-ObjC -Xlinker -lstdc++' to **Other Linker Flags** under the **Build Settings** pane in the ios-sinch-messaging-tutorial target.
-
-#####Setting up Parse
-
-Signup and login to your [Parse](https://www.parse.com/) account. In your account panel, click the **Select an App** button on the top left corner and then **+ Create App**. Create an app with 'iOS-Messaging-Tutorial' as the name. You should see the app keys. Write down the **Application ID** and the **Client Key** for later use.
-
-Download the [Parse SDK](https://www.parse.com/downloads/ios/parse-starter-project/latest). Drag Parse.framework and Bolts.framework into the **Frameworks** group of your project and make sure they are linked by the application target.
-
-#####Your first few lines of code
-
-In Xcode, create a new header file named 'Config.h' and put it in the iOS-Messaging-Tutorial/iOS-Messaging-Tutorial group. We will use this file to keep track of all those weird keys and secrets of the two APIs. Delete all the code lines in Config.h and add the following preprocessor constants (don't forget to replace the example strings with **YOUR OWN** credential strings, later you will login your won Sinch and Parse dashboards to check your app):
+#iOS Messaging TutorialIn this tutorial, you will learn how to use the [Sinch](https://www.sinch.com/) iOS SDK to an build instant messaging app. The estimated time to finish this tutorial is about 1 - 2 hours.####Prerequisites * Solid understanding of basic concepts in Objective-C language and object-oriented programing. * Entry level knowledge and experience of developing iOS apps. Familiarity with delegation, storyboard, IBOutlets and IBActions, view controllers and segues, function callback blocks, etc. * Access to a Mac Computer with Xcode 6.x installed. * Access to one or more iOS 8.x devices is recommended but not required.####OutcomeBy the end of this tutorial, you will have built an instant messaging app that looks like the following.![App User Interface](Images/AppUserInterface.png)##PreparationIn addition to the Sinch SDK, we will also use another third party SDK called [Parse](https://parse.com), as a zero-configuration cloud database, to store all the signed-up users and all the historical messages between each pair of users.**Optional:** as a handy reference, create a new favorite folder named **ios-messaging-tutorial** or **Sinch** in your browser and add the following pages: * [iOS messaging tutorial](https://github.com/sinch/ios-messaging-tutorial) * [Sinch SDK user guide](https://www.sinch.com/docs/ios/user-guide/) * [Sinch SDK reference](https://download.sinch.com/docs/iOS/latest/reference/html/index.html) * [Parse SDK quick start guide](https://www.parse.com/apps/quickstart#social/mobile/ios/native/new) * [Parse SDK guide](https://www.parse.com/docs/ios_guide#top/iOS)The whole tutorial app source code can be downloaded at [https://github.com/sinch/ios-messaging-tutorial](https://github.com/sinch/ios-messaging-tutorial). To get you start quickly and focus on how to use the SDKs, a project template **BoilerPlate** is provided for you along with the finished project **iOS-Messaging-tutorial** as the final reference. For this tutorial, we will mainly work with **BoilerPlate**.To run the both of these projects, make sure you run `pod install` in your project directory. ##Project Setup###Template overviewDownload/clone the project from [https://github.com/gt-liu/MiniChat](https://github.com/gt-liu/MiniChat). You can try the completed MiniChat app first. Under Building Settings pane of the project and all the targets, make sure the value of the **Architectures** key is set to "armv7, armv7s" and **Provisioning Profile** is set to 'Automatic'. Make sure these two keys are correctly set in both the **MiniChat** and the **MiniChatTemplate** projects.Open the project file *boilerplate/ios-sinch-messaging-tutorial.xcodeproj*. Your Xcode 6.x should be launched now.Verify that the *iOS Deployment Target* under the **Info** pane in the ios-messaging-tutorial project and the *Deployment Target* under **General** pane in MiniChat target are both '8.0'.![Deployment Target](Images/IMG1.png)![Deployment Target 2](Images/IMG2.png "IMG2")Open *Main.storyboard*, you should see 4 view controllers. The navigation controller is the initial view controller and it contains the other 3 view controllers we will use: the Login View Controller, the Chat Mate List View Controller, and finally the Dialog View Controller, each with a pair of corresponding Objective-C class files as shown in the project navigator on the left. Notice how the 3 view controllers are linked and ordered by two Show Segues (Push Segues).![Project Overview](Images/ProjectOverview.png)As you can see in the project navigator, there are 5 classes - AppDelegate, MNCChatMessageCell, MNCLoginViewController, MNCChatMateListViewController, and MNCDialogViewController. They are almost empty except those IBOutlets (UI element connections).###SDK setupLet's start with setting up the two SDKs - Sinch and Parse.####Setting up SinchSignup and login to your [Sinch](https://www.sinch.com/) account. In your Dashboard, open the **APPS** pane on the left. Create an app with 'MiniChat' as the name and select sandbox as the environment. Click the keyshape button next to the newly created app. You should see the credentials for your app, which includes the Hostname, the Key and the Secret. Save these 3 strings for later use.Follow the [First Time Setup section](https://www.sinch.com/docs/ios/user-guide/#firsttimesetup) of Sinch iOS SDK user guide.Sinch is also available as a [CocoaPods](http://www.cocoapods.org/). So if you are using CocoaPod, which is recommended, simply add the following line to your Podfile:```pod 'SinchRTC'```Alternatively, if you don't use CocoaPod, you can manually add the SDK to your project by: * Adding Sinch.framework to the **Frameworks** group in the project navigator. * Adding Sinch.framework, AudioToolbox.framework, AVFoundation.framework and Security.framework to the **Link Binary With Libraries** list under **Build Phases** pane in the ios-sinch-messaging-tutorial target of your Xcode project. * Adding '-ObjC -Xlinker -lstdc++' to **Other Linker Flags** under the **Build Settings** pane in the ios-sinch-messaging-tutorial target.####Setting up ParseSignup and login to your [Parse](https://www.parse.com/) account. In your account panel, click the **Select an App** button on the top left corner and then **+ Create App**. Create an app with 'iOS-Messaging-Tutorial' as the name. You should see the app keys. Write down the **Application ID** and the **Client Key** for later use.Download the [Parse SDK](https://www.parse.com/downloads/ios/parse-starter-project/latest). Drag Parse.framework and Bolts.framework into the **Frameworks** group of your project and make sure they are linked by the application target.####Your first few lines of codeIn Xcode, create a new header file named 'Config.h' and put it in the iOS-Messaging-Tutorial/iOS-Messaging-Tutorial group. We will use this file to keep track of all those weird keys and secrets of the two APIs. Delete all the code lines in Config.h and add the following preprocessor constants (don't forget to replace the example strings with **YOUR OWN** credential strings, later you will login with your own Sinch and Parse dashboards to check your app):
 
 ```objective-c
 //  Config.h
@@ -96,12 +14,13 @@ In Xcode, create a new header file named 'Config.h' and put it in the iOS-Messag
 #define PARSE_CLIENT_KEY @"your-client-key"
 ```
 
-To use Parse SDK, we need to initialize it every time when the application starts. So add the line
+To use the Parse SDK, we need to initialize it every time when the application starts. So add the line
 
 ```objective-c
 #import <Parse/Parse.h>
 #import "Config.h"
 ```
+
 near the top of **AppDelegate.h**. And add the line
 
 ```objective-c
@@ -123,11 +42,9 @@ into the **application:didFinishLaunchingWithOptions:** function of **AppDelegat
 @end
 ```
 
-
-
 ## Implementing The Login Scene
 
-The Login Scene is the first scene of the app and it is for a user to sign up an new account or login with an existing account.
+The Login Scene is the first scene of the app and it is for a user to sign up for a new account or login with an existing account.
 
 When the Login Scene initializes, we need to set the title of the scene as 'ios-sinch-messaging-tutorial' and hide the prompt label since no error message needs to be shown yet. Add the following **viewDidLoad** method to implementation of **MNCLoginViewController.m** (use **[#pragma mark](http://stackoverflow.com/questions/6853821/what-is-the-significance-of-pragma-marks-why-do-we-need-pragma-marks)** directive to group methods):
 
@@ -146,6 +63,7 @@ When the Login Scene initializes, we need to set the title of the scene as 'ios-
 
 @end
 ```
+
 When a user inputs text into the username field or password field, the virtual keyboard may overlap any textfield or button. We need to hide the virtual keyboard when the user taps the main view (or any non-UIControl elements). So add the following method in the **MNCLoginViewController.m** implementation:
 
 ```objective-c
@@ -161,6 +79,7 @@ When a user inputs text into the username field or password field, the virtual k
 
 @end
 ```
+
 And add the following two lines before the end of the **viewDidLoad** method:
 
 ```objective-c
@@ -204,7 +123,6 @@ Add `#import <Parse/Parse.h>` to **MNCLoginViewController.h**. In the **MNCLogin
 @end
 ```
 
-
 ###Implementing Login
 Login can be done with the **logInWithUsernameInBackground:password:block:** class method of **PFUser**. If login fails, show the error message with the prompt label; if login succeeds, proceed to next scene - the Chat Mate List Scene managed by the MNCChatMateListViewController. Notice that the transition from MNCLoginViewController to MNCChatMateListViewController is done by a storyboard segue with the identifier 'LoginSegue'. In order to invoke execute this transition, we need to call the **performSegueWithIdentifier:sender** from the source view controller.
 
@@ -237,17 +155,15 @@ In the **MNCLoginViewController.m** implementation, under `#pragma mark Function
 @end
 ```
 
-Now, if you run and test the app. You should be able to signup with the Signup button and to login with the Login button. If the login succeeded without error, you should have gone to to the almost empty Chat Mate List Scene.
+Now, if you run and test the app, you should be able to signup with the Signup button and to login with the Login button. If the login succeeded without error, you should have gone to the almost empty Chat Mate List Scene.
 
 Next we will begin to work on our Chat Mate List Scene. I hope you are feeling good or excited by following this tutorial to build the app.
 
-
-
 ##Implementing the Chat Mate List Scene
 
-As an instant messaging app, we want to be able to message to other users - who are referred to as **chat mates** in this app. Most of the time, we want to be able to choose a particular chat mate to chat with at certain moment. And that's what Chat Mate List Scene does - to show you a list of available chat mates for you to choose. As for this app, we will simply just display all the signed-up users in the list.
+As an instant messaging app, we want to be able to message to other users - who are referred to as **chat mates** in this app. Most of the time, we want to be able to choose a particular chat mate to chat with at certain moment. And that's what the Chat Mate List Scene does - to show you a list of available chat mates for you to choose. For this app, we will simply just display all the signed-up users in the list.
 
-Notice that it wouldn't make sense to display the user himself/herself in his/her chat mate list. And the app should be able to identify and keep track of the currently logged-in user. We can reach this by creating a property called **myUserId** and pass the username string value to it when the user logins. So myUserId would be an NSString and it should be public/exposed. In the **MNCChatMateListViewController.h**, add the following line:
+Clearly, it wouldn't make sense to display the user himself/herself in his/her chat mate list. And the app should be able to identify and keep track of the currently logged-in user. We can reach this by creating a property called **myUserId** and pass the username string value to it when the user logins. So myUserId would be an NSString and it should be public/exposed. In the **MNCChatMateListViewController.h**, add the following line:
 
 ```objective-c
 @interface MNCChatMateListViewController : UITableViewController
@@ -257,7 +173,7 @@ Notice that it wouldn't make sense to display the user himself/herself in his/he
 @end
 ```
 
-In order to pass data through the LoginSegue, we need to implement the **prepareForSegue** method in the source view controller - MNCLoginViewController. This method would be called right before any segue is executed. It is common practice to distingush eash segue by checking the segue identifier. Go back to the **MNCLoginViewController.m**, under `#pragma mark Boilerplate methods`, add the following code: (Don't forget to add `#import "MNCChatMateListViewController.h"` to **MNCLoginViewController.h** first)
+In order to pass data through the LoginSegue, we need to implement the **prepareForSegue** method in the source view controller - MNCLoginViewController. This method would be called right before any segue is executed. It is common practice to distinguish each segue by checking the segue identifier. Go back to the **MNCLoginViewController.m**, under `#pragma mark Boilerplate methods`, add the following code: (Don't forget to add `#import "MNCChatMateListViewController.h"` to **MNCLoginViewController.h** first):
 
 ```objective-c
 @implementation MNCLoginViewController
@@ -304,7 +220,6 @@ When the users logs out, before MNCChatMateListViewController will be removed, y
 
 @end
 ```
-
 
 ###Displaying the list of chat mates
 Notice that MNCChatMateListViewController is a subclass of UITableViewController. We could just use its main view - a UITableView, to display the chat mate list. In order to do that, two things are needed: 
@@ -370,7 +285,7 @@ And add the following three methods in the **MNCChatMateListViewController.m** i
 @end
 ```
 
-Every time the MNCChatMateListController shows up, we want it to retrieve all the usernames (except myUserId) from Parse server, store them to `chatMatesArray` and finally displays them to its table view. Data is stored in Parse server as 'objects' and it is retrieved through PFQuery. Users are a special type of Parse object (instance of PFUser) and hence they have a special type of query. Add the following code in MNCChatMateListViewController.m implementation (notice how myUserId is filtered out):
+Every time the MNCChatMateListController shows up, we want it to retrieve all the usernames (except myUserId) from the Parse server, store them to `chatMatesArray` and finally display them to its table view. Data is stored in the Parse server as 'objects' and it is retrieved through PFQuery. Users are a special type of Parse object (instance of PFUser) and hence they have a special type of query. Add the following code in MNCChatMateListViewController.m implementation (notice how myUserId is filtered out):
 
 ```objective-c
 @implementation MNCChatMateListViewController
@@ -419,20 +334,17 @@ Next, add the following **viewWillAppear:** function under `#pragma mark Boilerp
 
 The reason why `[self retrieveChatMatesFromParse];` is added into **viewWillAppear:** instead of **viewDidLoad** is that we want to refresh the chat mate list whenever the chat mate list scene appears. It could be when the user logs in, or when the user returns from the Dialog Scene. Being in **viewWillAppear:**, **retrieveChatMatesFromParse** will get called more often and the app will try to 'discover' newly signed-up chat mates more often. Now if you test the app, after you logged-in you will see a scrollable list of all other users.
 
-
 ###Opening a dialog
 
 Notice that the segue that connects from MNCChatMateListViewController to MNCDialogViewController has an identifier as 'OpenDialogSegue' and it is triggered by the ChatMateListPrototypeCell, which means that whenever a ChatMateListPrototypeCell is tapped, the OpenDialogSegue is triggered and performed, and the Dialog Scene will be loaded.
 
 So next we will begin to work with the Dialog Scene as well as the unfinished Chat Mate List Scene. You may notice that we haven't really used the Sinch API yet. Be patient! We will reach that soon.
 
-
-
 ##Setting up the Dialog Scene - Part 1
 
 The Dialog Scene, managed by MNCDialogViewController, is where the user edits and sends messages to a particular chat mate, and reads all the historical messages between them. **messageEditField** is where the user edits the message to be sent. **historicalMessagesTableView** is where historical messages are displayed.
 
-First thing we want the Dialog Scene to do is to display the chat mate ID as its title. To do this, we can simply declare a NSString type public property **chatMateId** in MNCDialogViewController and initialize its values through the OpenDialogSegue. Notice here we also declare a private property called **activeDialogViewController** and changes its value accordingly. It is used to keep track of to whom the user is currently engaged in a dialog with. You will see how useful it is later. Then we set the scene title as chatMateId in the **viewDidLoad** method.
+First thing we want the Dialog Scene to do is to display the chat mate ID as its title. To do this, we can simply declare an NSString type public property **chatMateId** in MNCDialogViewController and initialize its values through the OpenDialogSegue. Notice here we also declare a private property called **activeDialogViewController** and changes its value accordingly. It is used to keep track of to whom the user is currently engaged in a dialog with. You will see how useful it is later. Then we set the scene title as chatMateId in the **viewDidLoad** method.
 
 
 ```objective-c
@@ -501,8 +413,7 @@ Add `#import "MNCDialogViewController.h"` to **MNCChatMateListViewController.h**
 
 ###Using \<SINClient\>
 
-Recall that messaging is the responsibility of the Sinch API. To send a message, we need a 'SINMessageClient', an object that adopts the \<SINMessageClient\> protocol. The good news is that we can get a 'SINMessageClient' from a 'SINClient', an object
-that adopts \<SINClient\> protocol, because \<SINClient\> protocol has a method called **messageClient** that returns a id\<SINMessageClient\>. So we need a id\<SINClient\> object, which is initialized through the **clientWithApplicationKey:applicationSecret:environmentHost:userId:** class method of the **Sinch** class. Notice from the method signature that in order for an id\<SINClient\> to be initialized, you not only need the Application Key, the Application Secret and the Environment Host, all the three things you had written down. But you also need to provide a user ID. One way of doing this is is to declare a property called **id\<SINClient\> sinchClient** in **AppDelegate.h** and initialize sinchClient in the loginMethod Method
+Recall that messaging is the responsibility of the Sinch API. To send a message, we need a 'SINMessageClient', an object that adopts the \<SINMessageClient\> protocol. The good news is that we can get a 'SINMessageClient' from a 'SINClient', an object that adopts \<SINClient\> protocol, because \<SINClient\> protocol has a method called **messageClient** that returns a id\<SINMessageClient\>. So we need a id\<SINClient\> object, which is initialized through the **clientWithApplicationKey:applicationSecret:environmentHost:userId:** class method of the **Sinch** class. Notice from the method signature that in order for an id\<SINClient\> to be initialized, you not only need the Application Key, the Application Secret and the Environment Host, all the three things you had written down. But you also need to provide a user ID. One way of doing this is is to declare a property called **id\<SINClient\> sinchClient** in **AppDelegate.h** and initialize sinchClient in the loginMethod Method
 
 First thing first, add `#import <Sinch/Sinch.h>` to **AppDelegate.h**.
 
@@ -537,7 +448,8 @@ Next, to initialize sinchClient, add `#import "Config.h"` to **AppDelegate.h**. 
 @end
 ```
 
-And call the above method before the end of the **login:** method of MNCLoginViewController:
+And call the above method before the end of the **login:** method of MNCLoginViewController.
+
 Add import toMNCLogonViewController.m 
 
 ```objective-c
@@ -585,10 +497,13 @@ In order to be notified of some important state change events of **sinchClient**
 
 @end
 ```
+
 In initSinchClient add after the initialization
+
 ```
     self.sinchClient.delegate = self;   /* add this line */
 ```
+
 Add the protocol implementation for **SINCLientDelegate**
 
 ```objective-c
@@ -625,16 +540,19 @@ In Config.h add the following, later we are going to use those as names for broa
 #define SINCH_MESSAGE_FAILED @"SINCH_MESSAGE_DELIVERED"
 ``` 
 
-In AppDelegate.h add SINMessageClientDelegate protocol
+In AppDelegate.h add SINMessageClientDelegate protocol:
+
 ```
 @interface AppDelegate : UIResponder <UIApplicationDelegate, SINClientDelegate, SINMessageClientDelegate>
 ```
-Add a property for the message client (dont forget to @syntezise)
+
+Add a property for the message client (don't forget to @syntezise):
+
 ```
 @property (strong, nonatomic) id<SINMessageClient> sinchMessageClient;
 ```
 
-Open up AppDelegate.m in clientDidStart add the below to assign the property and delegate
+Open up AppDelegate.m in clientDidStart and add the code below to assign the property and delegate
 
 ```
 - (void)clientDidStart:(id<SINClient>)client {
@@ -696,9 +614,9 @@ AppDelegate.m
 @end
 ```
 
-Before we start building the UI lets implement saving and retrieving messages from parse. Sinch will save messages for delivery by default for 30 days, but don't provide a storage to query and sync at will. If a user adds a new device or reinstalls the client messages will be delivered again. So if you want to support full history as we do you need to either use your own backend or parse.
+Before we start building the UI, let's implement saving and retrieving messages from Parse. Sinch will save messages for delivery by default for 30 days, but don't provide a storage to query and sync at will. If a user adds a new device or reinstalls the client, messages will be delivered again. So if you want to support full history as we do you need to either use your own backend or Parse.
 
-In AppDelegate add an instance method called saveMessagesOnParse, 
+In AppDelegate, add an instance method called **saveMessagesOnParse**, 
 
 ```objectivec
 - (void)saveMessagesOnParse:(id<SINMessage>)message {
@@ -726,7 +644,7 @@ In AppDelegate add an instance method called saveMessagesOnParse,
 }
 ```
 
-In messageSent: and didReceiveIncomingMessage add a call to the saveMessageOnParse, they should look like below when you are done.
+In messageSent: and didReceiveIncomingMessage, add a call to the saveMessageOnParse, they should look like this when you are done:
 
 ```objectivec
 // Receiving an incoming message.
@@ -743,14 +661,11 @@ In messageSent: and didReceiveIncomingMessage add a call to the saveMessageOnPar
 }
 ```
 
-Now all the sent or received messages should be saved on Parse without problem. Run your app and send some messages. In the browser, go to your Parse dashboard, open your app, click the Core pane button on the top and then the Data tab button on the left. You should be able to see every saved message object.
-![alt text](Images/ExamineSavedMessages.png "Examine Saved Messages")
+Now all the sent or received messages should be saved in Parse without a problem. Run your app and send some messages. In the browser, go to your Parse dashboard, open your app, click the Core pane button on the top and then the Data tab button on the left. You should be able to see every saved message object.
+![Examine Saved Messages](Images/ExamineSavedMessages.png)
 
-
-Implementing the UI
-Open up **MNCDialogViewController.h**
-Add a property called messageArray
-and init in viewDidLoad it should now look like this
+##Implementing the UI
+Open up **MNCDialogViewController.h**, and add a property called messageArray and init in viewDidLoad. It should now look like this:
 
 ```objectivec
 - (void)viewDidLoad {
@@ -760,11 +675,15 @@ and init in viewDidLoad it should now look like this
 }
 ```
 
-Any historical messages between the user and the current specific chat mate that are retrieved will be added to self.messageArray. How do we differentiate which ones are sent by the chat mate and which ones are sent by the user? We can imitate most other messaging apps. We can show chat mate sent messages on the left and user sent messages on the right, and we use different colors for them. If you look at the storyboard, a custom prototype cell in the table view has been created for that purpose, and its custom class - MNCChatMessageCell is given. MNCChatMessageCell has two more properties compared to its superclass, the UITableViewCell - chatMateMessageLabel and myMessageLabel. So your app just needs to determine which label to put a message object into at run time.
+Any historical messages between the user and the current specific chat mate that are retrieved will be added to self.messageArray. How do we differentiate which ones are sent by the chat mate and which ones are sent by the user? We can imitate most other messaging apps. We can show chat mate sent messages on the left and user sent messages on the right, and we use different colors for them. If you look at the storyboard, a custom prototype cell in the table view has been created for that purpose, and its custom class - MNCChatMessageCell is given. 
 
-Every time the MNCDialogViewController load its view, it should retrieve the historical messages from Parse. While messages are retrieved by PFQuery that returns PFObject instances, we would like to add id<SINMessage> into messageArray. Since properties declared in <SINMessag> protocol are all read-only, which stops us from setting each property according to the PFObject, we can create a class that adopts <SINMessag> protocol.
+MNCChatMessageCell has two more properties compared to its superclass, the UITableViewCell - chatMateMessageLabel and myMessageLabel. So your app just needs to determine which label to put a message object into at run time.
 
-Create an Objective-C class (Cocoa class) named MNCChatMessage that subclasses NSObject and adopts <SINMessage> protocol. The .h and .m file should look as follows.
+Every time the MNCDialogViewController load its view, it should retrieve the historical messages from Parse. While messages are retrieved by PFQuery that returns PFObject instances, we would like to add id<SINMessage> into messageArray. 
+
+Since properties declared in <SINMessag> protocol are all read-only, which stops us from setting each property according to the PFObject, we can create a class that adopts <SINMessag> protocol.
+
+Create an Objective-C class (Cocoa class) named MNCChatMessage that subclasses NSObject and adopts <SINMessage> protocol. The .h and .m file should look as follows:
 
 ```objectivec
 // MNCChatMessage.h
@@ -798,8 +717,6 @@ Create an Objective-C class (Cocoa class) named MNCChatMessage that subclasses N
 
 @end
 ```
-
-
 
 Now, add `#import "MNCChatMessage.h"` to **MNCDialogViewController.h**. Then, add the following **retrieveMessagesFromParseWithChatMateID** method and call it in `viewDidLoad:`
 
@@ -842,7 +759,7 @@ Next add **retrieveMessagesFromParseWithChatMateID** as below:
 }
 ```
 
-Notice we need to use the property myUserId when retrieving historical messages and we haven't declare it yet. Let's declare it and pass value to it in the OpenDialogSegue:
+Notice we need to use the property myUserId when retrieving historical messages and we haven't declared it yet. Let's declare it and pass value to it in the OpenDialogSegue:
 
 
 ```objectivec
@@ -851,7 +768,7 @@ Notice we need to use the property myUserId when retrieving historical messages 
 @end
 ```
 
-And in MNCChatMatesController
+And in MNCChatMatesController:
 
 ```
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -877,7 +794,8 @@ Next we need to configure historicalMessagesTableView to display all the message
 @interface MNCDialogViewController : UIViewController <UITableViewDataSource>   /* add this protocol */
 
 ```
-Now in **MNCDialogViewController.m**, add TableViewDelegate methods 
+
+Now in **MNCDialogViewController.m**, add TableViewDelegate methods:
 
 ```objective-c
 // MNCDialogViewController.m
@@ -928,11 +846,11 @@ Now in **MNCDialogViewController.m**, add TableViewDelegate methods
 ```
 
 ##Sending your first message
-Open up Main.storyboard and add an Action for the SendButton of the DialogViewController view. 
+Open up Main.storyboard and add an Action for the SendButton of the DialogViewController view:
+
 `- (IBAction)sendMessage:(id)sender;`
-in 
-DialogViewController.m add `#import "AppDelegate.h"`
-Add implementation for the **sendMessage** action
+
+In DialogViewController.m, add `#import "AppDelegate.h"`. Then, add implementation for the **sendMessage** action:
 
 ```objectivec
 -(void)sendMessage:(id)sender
@@ -942,11 +860,11 @@ Add implementation for the **sendMessage** action
 }
 ```
 
-Thats it now you should can sent messages. 
+That's it. Now you should be able to send messages. 
 
-Now, when MNCDialogViewContoller loads its view, it should retrieve and display all the historical messages stored at Parse server. Next we will implement NSNotfications for all the message events we raise in **AppDelegate** 
+Now, when MNCDialogViewContoller loads its view, it should retrieve and display all the historical messages stored at the Parse server. Next we will implement NSNotfications for all the message events we raise in **AppDelegate** 
 
-in viewWillApear add the following
+In viewWillApear add the following:
 
 ```objectivec
 -(void)viewWillAppear:(BOOL)animated
@@ -955,9 +873,10 @@ in viewWillApear add the following
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDelivered:) name:SINCH_MESSAGE_SENT object:nil];
 }
 ```
-The reason for putting it in viewVillApear is as soon as the view goes out of view we don't want to receive notifications about this. Instead we would probably add an listener to the ChatmateController to indicate new messages. 
 
-Make sure to deregister for the notifications when the view will disappear
+The reason for putting it in viewVillApear is as soon as the view goes out of view, we don't want to receive notifications about this. Instead we would probably add a listener to the ChatmateController to indicate new messages. 
+
+Make sure to deregister for the notifications when the view will disappear:
 
 ```objectivec
 -(void)viewWillDisappear:(BOOL)animated
@@ -966,7 +885,7 @@ Make sure to deregister for the notifications when the view will disappear
 }
 ```
 
-Add messageDelivered: Method
+Add messageDelivered: Method:
 
 ```
 - (void)messageDelivered:(NSNotification *)notification
@@ -998,7 +917,7 @@ If you test the app now, you will notice if you send or receive very long messag
 At this point the functionality of MiniChat as a tutorial app is pretty much done. There is a user experience problem - when the user is editing the text and the virtual keyboard pops up, the messageEditField (message edit text field), the send button, or the bottom part of the historicalMessagesTableView may potentially be blocked by the keyboard. To solve this problem we need to do two things:
 
  1. Dismiss the keyboard when the user taps outside of the messageEditField. This is simple using a gesture recognizer.
- 2. When the keyboard is showing, scroll the whole view up above the keyboard. That is why all the MNCDialogViewController UI elements are placed inside a UIScrollView object, which is connected a IBOutlet property called **scrollView**, if you look at the storyboard. And [Apple has provided the discussion and code for implementing this behavior](https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/KeyboardManagement/KeyboardManagement.html#//apple_ref/doc/uid/TP40009542-CH5-SW1#Moving Content That Is Located Under the Keyboard). Just copy-and-paste the following code into **MNCDialogViewController.h** and **MNCDialogViewController.m**. Specifically, MNCDialogViewController needs to adopt the \<UITextFieldDelegate\> protocol.
+ 2. When the keyboard is showing, scroll the whole view up above the keyboard. That is why all the MNCDialogViewController UI elements are placed inside a UIScrollView object, which is connected an IBOutlet property called **scrollView**, if you look at the storyboard. And [Apple has provided the discussion and code for implementing this behavior](https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/KeyboardManagement/KeyboardManagement.html#//apple_ref/doc/uid/TP40009542-CH5-SW1#Moving Content That Is Located Under the Keyboard). Just copy-and-paste the following code into **MNCDialogViewController.h** and **MNCDialogViewController.m**. Specifically, MNCDialogViewController needs to adopt the \<UITextFieldDelegate\> protocol:
 
 ```objective-c
 //  MNCDialogViewController.h
@@ -1017,7 +936,8 @@ At this point the functionality of MiniChat as a tutorial app is pretty much don
 
 @end
 ```
-Make your viewDidLoad look like this
+
+Make your viewDidLoad look like this:
 
 ```objectivec
 @implementation MNCDialogViewController
@@ -1029,6 +949,7 @@ Make your viewDidLoad look like this
     [self registerForKeyboardNotifications];
 }
 ```
+
 As you see you are missing some methods, lets add those in to the **MNCDialogViewController**
 
 ```objectivec
@@ -1085,4 +1006,8 @@ As you see you are missing some methods, lets add those in to the **MNCDialogVie
 
 ##Finish
 
-Finally, you have reached the end of this tutorial. You've built an instant messaging app! You may test the app, trying to identify problems if any would exist. Of course, as a tutorial app, it is far from a practical instant messaging app in many aspects. You can modify or expand MiniChat to design your own instant messaging app with some cool new features. You may consider other interesting Sinch APIs such as [voice calling](https://www.sinch.com/docs/ios/user-guide/#calling).
+Finally, you have reached the end of this tutorial. You've built an instant messaging app! 
+
+You may test the app, trying to identify problems if any would exist. Of course, as a tutorial app, it is far from a practical instant messaging app in many aspects. You can modify or expand MiniChat to design your own instant messaging app with some cool new features. 
+
+You may consider other interesting Sinch APIs such as [voice calling](https://www.sinch.com/docs/ios/user-guide/#calling) in the future.
