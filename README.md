@@ -1,4 +1,84 @@
-#iOS Messaging TutorialIn this tutorial, you will learn how to use the [Sinch](https://www.sinch.com/) iOS SDK to an build instant messaging app. The estimated time to finish this tutorial is about 1 - 2 hours.####Prerequisites * Solid understanding of basic concepts in Objective-C language and object-oriented programing. * Entry level knowledge and experience of developing iOS apps. Familiarity with delegation, storyboard, IBOutlets and IBActions, view controllers and segues, function callback blocks, etc. * Access to a Mac Computer with Xcode 6.x installed. * Access to one or more iOS 8.x devices is recommended but not required.####OutcomeBy the end of this tutorial, you will have built an instant messaging app that looks like the following.![App User Interface](Images/AppUserInterface.png)##PreparationIn addition to the Sinch SDK, we will also use another third party SDK called [Parse](https://parse.com), as a zero-configuration cloud database, to store all the signed-up users and all the historical messages between each pair of users.**Optional:** as a handy reference, create a new favorite folder named **ios-messaging-tutorial** or **Sinch** in your browser and add the following pages: * [iOS messaging tutorial](https://github.com/sinch/ios-messaging-tutorial) * [Sinch SDK user guide](https://www.sinch.com/docs/ios/user-guide/) * [Sinch SDK reference](https://download.sinch.com/docs/iOS/latest/reference/html/index.html) * [Parse SDK quick start guide](https://www.parse.com/apps/quickstart#social/mobile/ios/native/new) * [Parse SDK guide](https://www.parse.com/docs/ios_guide#top/iOS)The whole tutorial app source code can be downloaded at [https://github.com/sinch/ios-messaging-tutorial](https://github.com/sinch/ios-messaging-tutorial). To get you start quickly and focus on how to use the SDKs, a project template **BoilerPlate** is provided for you along with the finished project **iOS-Messaging-tutorial** as the final reference. For this tutorial, we will mainly work with **BoilerPlate**.To run the both of these projects, make sure you run `pod install` in your project directory. ##Project Setup###Template overviewDownload/clone the project from [https://github.com/gt-liu/MiniChat](https://github.com/gt-liu/MiniChat). You can try the completed MiniChat app first. Under Building Settings pane of the project and all the targets, make sure the value of the **Architectures** key is set to "armv7, armv7s" and **Provisioning Profile** is set to 'Automatic'. Make sure these two keys are correctly set in both the **MiniChat** and the **MiniChatTemplate** projects.Open the project file *boilerplate/ios-sinch-messaging-tutorial.xcodeproj*. Your Xcode 6.x should be launched now.Verify that the *iOS Deployment Target* under the **Info** pane in the ios-messaging-tutorial project and the *Deployment Target* under **General** pane in MiniChat target are both '8.0'.![Deployment Target](Images/IMG1.png)![Deployment Target 2](Images/IMG2.png "IMG2")Open *Main.storyboard*, you should see 4 view controllers. The navigation controller is the initial view controller and it contains the other 3 view controllers we will use: the Login View Controller, the Chat Mate List View Controller, and finally the Dialog View Controller, each with a pair of corresponding Objective-C class files as shown in the project navigator on the left. Notice how the 3 view controllers are linked and ordered by two Show Segues (Push Segues).![Project Overview](Images/ProjectOverview.png)As you can see in the project navigator, there are 5 classes - AppDelegate, MNCChatMessageCell, MNCLoginViewController, MNCChatMateListViewController, and MNCDialogViewController. They are almost empty except those IBOutlets (UI element connections).###SDK setupLet's start with setting up the two SDKs - Sinch and Parse.####Setting up SinchSignup and login to your [Sinch](https://www.sinch.com/) account. In your Dashboard, open the **APPS** pane on the left. Create an app with 'MiniChat' as the name and select sandbox as the environment. Click the keyshape button next to the newly created app. You should see the credentials for your app, which includes the Hostname, the Key and the Secret. Save these 3 strings for later use.Follow the [First Time Setup section](https://www.sinch.com/docs/ios/user-guide/#firsttimesetup) of Sinch iOS SDK user guide.Sinch is also available as a [CocoaPods](http://www.cocoapods.org/). So if you are using CocoaPod, which is recommended, simply add the following line to your Podfile:```pod 'SinchRTC'```Alternatively, if you don't use CocoaPod, you can manually add the SDK to your project by: * Adding Sinch.framework to the **Frameworks** group in the project navigator. * Adding Sinch.framework, AudioToolbox.framework, AVFoundation.framework and Security.framework to the **Link Binary With Libraries** list under **Build Phases** pane in the ios-sinch-messaging-tutorial target of your Xcode project. * Adding '-ObjC -Xlinker -lstdc++' to **Other Linker Flags** under the **Build Settings** pane in the ios-sinch-messaging-tutorial target.####Setting up ParseSignup and login to your [Parse](https://www.parse.com/) account. In your account panel, click the **Select an App** button on the top left corner and then **+ Create App**. Create an app with 'iOS-Messaging-Tutorial' as the name. You should see the app keys. Write down the **Application ID** and the **Client Key** for later use.Download the [Parse SDK](https://www.parse.com/downloads/ios/parse-starter-project/latest). Drag Parse.framework and Bolts.framework into the **Frameworks** group of your project and make sure they are linked by the application target.####Your first few lines of codeIn Xcode, create a new header file named 'Config.h' and put it in the iOS-Messaging-Tutorial/iOS-Messaging-Tutorial group. We will use this file to keep track of all those weird keys and secrets of the two APIs. Delete all the code lines in Config.h and add the following preprocessor constants (don't forget to replace the example strings with **YOUR OWN** credential strings, later you will login with your own Sinch and Parse dashboards to check your app):
+
+#iOS Messaging Tutorial
+
+In this tutorial, you will learn how to use the [Sinch](https://www.sinch.com/) iOS SDK to an build instant messaging app. The estimated time to finish this tutorial is about 1 - 2 hours.
+
+####Prerequisites
+ * Solid understanding of basic concepts in Objective-C language and object-oriented programing.
+ * Entry level knowledge and experience of developing iOS apps. Familiarity with delegation, storyboard, IBOutlets and IBActions, view controllers and segues, function callback blocks, etc.
+ * Access to a Mac Computer with Xcode 6.x installed.
+ * Access to one or more iOS 8.x devices is recommended but not required.
+
+####Outcome
+By the end of this tutorial, you will have built an instant messaging app that looks like the following.
+![App User Interface](Images/AppUserInterface.png)
+
+##Preparation
+
+In addition to the Sinch SDK, we will also use another third party SDK called [Parse](https://parse.com), as a zero-configuration cloud database, to store all the signed-up users and all the historical messages between each pair of users.
+
+**Optional:** as a handy reference, create a new favorite folder named **ios-messaging-tutorial** or **Sinch** in your browser and add the following pages:
+
+ * [iOS messaging tutorial](https://github.com/sinch/ios-messaging-tutorial)
+ * [Sinch SDK user guide](https://www.sinch.com/docs/ios/user-guide/)
+ * [Sinch SDK reference](https://download.sinch.com/docs/iOS/latest/reference/html/index.html)
+ * [Parse SDK quick start guide](https://www.parse.com/apps/quickstart#social/mobile/ios/native/new)
+ * [Parse SDK guide](https://www.parse.com/docs/ios_guide#top/iOS)
+
+The whole tutorial app source code can be downloaded at [https://github.com/sinch/ios-messaging-tutorial](https://github.com/sinch/ios-messaging-tutorial). To get you start quickly and focus on how to use the SDKs, a project template **BoilerPlate** is provided for you along with the finished project **iOS-Messaging-tutorial** as the final reference. For this tutorial, we will mainly work with **BoilerPlate**.
+
+To run the both of these projects, make sure you run `pod install` in your project directory. 
+
+##Project Setup
+
+###Template overview
+Download/clone the project from [https://github.com/gt-liu/MiniChat](https://github.com/gt-liu/MiniChat). You can try the completed MiniChat app first. Under Building Settings pane of the project and all the targets, make sure the value of the **Architectures** key is set to "armv7, armv7s" and **Provisioning Profile** is set to 'Automatic'. Make sure these two keys are correctly set in both the **MiniChat** and the **MiniChatTemplate** projects.
+
+
+Open the project file *boilerplate/ios-sinch-messaging-tutorial.xcodeproj*. Your Xcode 6.x should be launched now.
+
+Verify that the *iOS Deployment Target* under the **Info** pane in the ios-messaging-tutorial project and the *Deployment Target* under **General** pane in MiniChat target are both '8.0'.
+
+![Deployment Target](Images/IMG1.png)
+
+![Deployment Target 2](Images/IMG2.png "IMG2")
+
+Open *Main.storyboard*, you should see 4 view controllers. The navigation controller is the initial view controller and it contains the other 3 view controllers we will use: the Login View Controller, the Chat Mate List View Controller, and finally the Dialog View Controller, each with a pair of corresponding Objective-C class files as shown in the project navigator on the left. Notice how the 3 view controllers are linked and ordered by two Show Segues (Push Segues).
+
+![Project Overview](Images/ProjectOverview.png)
+
+As you can see in the project navigator, there are 5 classes - AppDelegate, MNCChatMessageCell, MNCLoginViewController, MNCChatMateListViewController, and MNCDialogViewController. They are almost empty except those IBOutlets (UI element connections).
+
+
+###SDK setup
+
+Let's start with setting up the two SDKs - Sinch and Parse.
+
+####Setting up Sinch
+
+Signup and login to your [Sinch](https://www.sinch.com/) account. In your Dashboard, open the **APPS** pane on the left. Create an app with 'MiniChat' as the name and select sandbox as the environment. Click the keyshape button next to the newly created app. You should see the credentials for your app, which includes the Hostname, the Key and the Secret. Save these 3 strings for later use.
+
+Follow the [First Time Setup section](https://www.sinch.com/docs/ios/user-guide/#firsttimesetup) of Sinch iOS SDK user guide.
+
+Sinch is also available as a [CocoaPods](http://www.cocoapods.org/). So if you are using CocoaPod, which is recommended, simply add the following line to your Podfile:
+
+```pod 'SinchRTC'```
+
+Alternatively, if you don't use CocoaPod, you can manually add the SDK to your project by:
+
+ * Adding Sinch.framework to the **Frameworks** group in the project navigator.
+ * Adding Sinch.framework, AudioToolbox.framework, AVFoundation.framework and Security.framework to the **Link Binary With Libraries** list under **Build Phases** pane in the ios-sinch-messaging-tutorial target of your Xcode project.
+ * Adding '-ObjC -Xlinker -lstdc++' to **Other Linker Flags** under the **Build Settings** pane in the ios-sinch-messaging-tutorial target.
+
+####Setting up Parse
+
+Signup and login to your [Parse](https://www.parse.com/) account. In your account panel, click the **Select an App** button on the top left corner and then **+ Create App**. Create an app with 'iOS-Messaging-Tutorial' as the name. You should see the app keys. Write down the **Application ID** and the **Client Key** for later use.
+
+Download the [Parse SDK](https://www.parse.com/downloads/ios/parse-starter-project/latest). Drag Parse.framework and Bolts.framework into the **Frameworks** group of your project and make sure they are linked by the application target.
+
+####Your first few lines of code
+
+In Xcode, create a new header file named 'Config.h' and put it in the iOS-Messaging-Tutorial/iOS-Messaging-Tutorial group. We will use this file to keep track of all those weird keys and secrets of the two APIs. Delete all the code lines in Config.h and add the following preprocessor constants (don't forget to replace the example strings with **YOUR OWN** credential strings, later you will login with your own Sinch and Parse dashboards to check your app):
 
 ```objective-c
 //  Config.h
@@ -1011,3 +1091,5 @@ Finally, you have reached the end of this tutorial. You've built an instant mess
 You may test the app, trying to identify problems if any would exist. Of course, as a tutorial app, it is far from a practical instant messaging app in many aspects. You can modify or expand MiniChat to design your own instant messaging app with some cool new features. 
 
 You may consider other interesting Sinch APIs such as [voice calling](https://www.sinch.com/docs/ios/user-guide/#calling) in the future.
+
+Thanks to Gaunting Liu for his help writing this tutorial. 
