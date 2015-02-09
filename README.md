@@ -32,7 +32,7 @@ To run the both of these projects, make sure you run `pod install` in your proje
 ##Project Setup
 
 ###Template overview
-Download/clone the project from [https://github.com/gt-liu/MiniChat](https://github.com/gt-liu/MiniChat). You can try the completed MiniChat app first. Under Building Settings pane of the project and all the targets, make sure the value of the **Architectures** key is set to "armv7, armv7s" and **Provisioning Profile** is set to 'Automatic'. Make sure these two keys are correctly set in both the **MiniChat** and the **MiniChatTemplate** projects.
+Download/clone the project from [https://github.com/sinch/ios-messaging-tutorial](https://github.com/sinch/ios-messaging-tutorial). You can try the completed MiniChat app first. Under Building Settings pane of the project and all the targets, make sure the value of the **Architectures** key is set to "armv7, armv7s" and **Provisioning Profile** is set to 'Automatic'. Make sure these two keys are correctly set in both the **MiniChat** and the **MiniChatTemplate** projects.
 
 
 Open the project file *boilerplate/ios-sinch-messaging-tutorial.xcodeproj*. Your Xcode 6.x should be launched now.
