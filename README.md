@@ -1,7 +1,7 @@
 
 #iOS Messaging App Tutorial
 
-In this tutorial, you will learn how to use the [Sinch](https://www.sinch.com/) iOS SDK to an build instant messaging app. The estimated time to finish this tutorial is about 1 - 2 hours.
+In this tutorial, you will learn how to use the [Sinch](https://www.sinch.com/) iOS SDK to an make an iOS app with instant messaging features. The estimated time to finish this tutorial is about 1 - 2 hours.
 
 ####Prerequisites
  * Solid understanding of basic concepts in Objective-C language and object-oriented programing.
