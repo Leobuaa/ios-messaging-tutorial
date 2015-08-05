@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Rebtel Networks AB. All rights reserved.
+ * Copyright (c) 2015 Sinch AB. All rights reserved.
  *
  * See LICENSE file for license terms and information.
  */
@@ -24,6 +24,8 @@
 #import "SINAudioController.h"
 
 #import "SINPushPair.h"
+#import "SINManagedPush.h"
+#import "SINAPSEnvironment.h"
 
 #import "SINLocalNotification.h"
 #import "SINUILocalNotification+Sinch.h"
@@ -32,6 +34,7 @@
 #import "SINCallNotificationResult.h"
 #import "SINMessageNotificationResult.h"
 
+#import "SINLogSeverity.h"
 #import "SINError.h"
 
 /**
@@ -175,6 +178,19 @@ SIN_EXPORT
                           environmentHost:(NSString *)environmentHost
                                    userId:(NSString *)userId
                                       cli:(NSString *)cli;
+
+/**
+ * Instantiate a new `SINManagedPush` instance to enable Push Notifications
+ * managed by the Sinch SDK and platform. When using managed push notifications,
+ * push notifications will be sent by the Sinch platform provided that Apple
+ * Push Notification Certificates for your application have been uploaded to Sinch.
+ *
+ * @param apsEnvironment Specification of which Apple Push Notification Service environment
+ *                       the application is bound to (via code signing and Provisioning Profile).
+ *
+ * @see SINAPSEnvironment
+ */
++ (id<SINManagedPush>)managedPushWithAPSEnvironment:(SINAPSEnvironment)apsEnvironment;
 
 /**
  * Returns the Sinch SDK version.

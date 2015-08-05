@@ -1,10 +1,11 @@
 /*
- * Copyright (c) 2012 Rebtel Networks AB. All rights reserved.
+ * Copyright (c) 2015 Sinch AB. All rights reserved.
  *
  * See LICENSE file for license terms and information.
  */
 
 #import <Foundation/Foundation.h>
+#import <Sinch/SINExport.h>
 
 @class SINLocalNotification;
 @protocol SINCall;
@@ -16,6 +17,7 @@
  *
  * ### Example
  *
+ * 	id<SINClient> sinchClient;
  * 	[sinchClient setSupportCalling:YES];
  * 	[sinchClient start];
  * 	...
@@ -33,6 +35,10 @@
  * 	[call hangup];
  *
  */
+
+SIN_EXPORT SIN_EXTERN NSString *const SINIncomingCallNotification;  // userInfo contains SINCall
+SIN_EXPORT SIN_EXTERN NSString *const SINCallKey;                   // SINCallKey is used for SINCall in userInfo;
+
 @protocol SINCallClient <NSObject>
 
 /**
@@ -72,7 +78,7 @@
 *                                             SINClient is started.
 *                                             @see -[SINClientDelegate clientDidStart:].
 *
-* @exception NSInvalidArgumentException Throws an exception if headers are not strictly 
+* @exception NSInvalidArgumentException Throws an exception if headers are not strictly
 *                                       containing only keys and values that are of type NSString,
 *                                       or if the size of all header strings exceeds 1024 bytes when
 *                                       encoded as UTF-8.

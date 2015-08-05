@@ -1,29 +1,21 @@
 /*
- * Copyright (c) 2012 Rebtel Networks AB. All rights reserved.
+ * Copyright (c) 2015 Sinch AB. All rights reserved.
  *
  * See LICENSE file for license terms and information.
  */
 
 #import <Foundation/Foundation.h>
 
-@protocol SINClientDelegate;
-@protocol SINCallClient;
-@protocol SINCall;
-@protocol SINAudioController;
-@protocol SINClientRegistration;
-@protocol SINNotificationResult;
-@protocol SINMessageClient;
-@class SINLocalNotification;
-@class UILocalNotification;
+#import <Sinch/SINForwardDeclarations.h>
+#import <Sinch/SINExport.h>
+#import <Sinch/SINAPSEnvironment.h>
+#import <Sinch/SINLogSeverity.h>
+
+SIN_EXPORT SIN_EXTERN NSString *const SINClientDidStartNotification;
+SIN_EXPORT SIN_EXTERN NSString *const SINClientDidFailNotification;
+SIN_EXPORT SIN_EXTERN NSString *const SINClientWillTerminateNotification;
 
 #pragma mark - Log Severity
-
-typedef NS_ENUM(NSInteger, SINLogSeverity) {
-  SINLogSeverityTrace = 0,
-  SINLogSeverityInfo,
-  SINLogSeverityWarn,
-  SINLogSeverityCritical
-};
 
 #pragma mark - SINClient
 
@@ -130,6 +122,26 @@ typedef NS_ENUM(NSInteger, SINLogSeverity) {
  *
  */
 - (void)setSupportPushNotifications:(BOOL)supported;
+
+/**
+ * Specify that the Sinch SDK and platform should take care of
+ * sending the push notification to the other device via the appropriate
+ * push notification gateway (i.e. Apple Push Notification Service for iOS devices,
+ * and Google Cloud Messaging (GCM) for Android devices).
+ *
+ * (This require that you have uploaded your Apple Push Notification
+ * Certificate(s) on the Sinch website)
+ *
+ * This method will internally also invoke -[SINClient setSupportPushNotifications:YES]
+ *
+ * Method should be called before calling -[SINClient start].
+ *
+ * @see -[SINClient registerPushNotificationDeviceToken:type:apsEnvironment:]
+ * @see -[SINClient unregisterPushNotificationDeviceToken];
+ * @see -[SINClient relayRemotePushNotificationPayload:];
+ *
+ */
+- (void)enableManagedPushNotifications;
 
 /**
  * Specify whether to keep the active connection open if the application
@@ -252,6 +264,18 @@ typedef NS_ENUM(NSInteger, SINLogSeverity) {
 - (id<SINNotificationResult>)relayRemotePushNotificationPayload:(NSString *)payload;
 
 /**
+ * Method used to forward a remote notification dictionary if using -[SINCLient enableManagedPushNotifications];
+ *
+ * @return Value indicating initial inspection of push notification.
+ *
+ * @param userInfo Remote notification payload which was transferred with an Apple Push Notification.
+ *                 and received via -[UIApplicationDelegate application:didReceiveRemoteNotification:].
+ *
+ * @see SINNotificationResult
+ */
+- (id<SINNotificationResult>)relayRemotePushNotification:(NSDictionary *)userInfo;
+
+/**
  * Method used to handle a local notification which has been scheduled and
  * taken action upon by the application user.
  *
@@ -309,6 +333,44 @@ typedef NS_ENUM(NSInteger, SINLogSeverity) {
  * for Sinch calls, this method should be used to unregister the push data.
  */
 - (void)unregisterPushNotificationData;
+
+/**
+ * Register push notification device token for using "Sinch Managed Push Notifications".
+ * The preferred way of enabling push notifications is to use `SINManagedPush` which
+ * will automatically register the device token with the client, but this method can
+ * also be used directly.
+ *
+ * @param deviceToken A token that identifies the device to APNs.
+ * @param pushType SINPushType NSString constant, i.e. SINPushTypeVoIP or SINPushTypeRemote
+ * @param apsEnvironment Specification of which Apple Push Notification Service environment
+ *                       the device token is bound to.
+ *
+ * @see SINAPSEnvironment
+ * @see SINPushTypeVoIP
+ * @see SINPushTypeRemote
+ */
+- (void)registerPushNotificationDeviceToken:(NSData *)deviceToken
+                                       type:(NSString *)pushType
+                             apsEnvironment:(SINAPSEnvironment)apsEnvironment;
+
+/**
+ * Unregister push notification device token when using "Sinch Managed Push Notifications"
+ * Example if the user log out, the device token should be unregistered.
+ */
+- (void)unregisterPushNotificationDeviceToken;
+
+/**
+ * Specify a display name to be used when the Sinch client sends a push notification on
+ * behalf of the local user (e.g. for an outgoing call).
+ * This will only be used when using -[SINClient enableManagedPushNotifications].
+ *
+ * Display name is included in a push notification on a best-effort basis. For example, if the
+ * target device has very limited push payload size constraints (e.g iOS 7 can only handle
+ * 255 byte push notification payload), then the display name may not be included.
+ *
+ * @param displayName display name may at most be 255 bytes (UTF-8 encoded) long.
+ */
+- (void)setPushNotificationDisplayName:(NSString *)displayName;
 
 /**
  *

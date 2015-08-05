@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Rebtel Networks AB. All rights reserved.
+ * Copyright (c) 2015 Sinch AB. All rights reserved.
  *
  * See LICENSE file for license terms and information.
  */

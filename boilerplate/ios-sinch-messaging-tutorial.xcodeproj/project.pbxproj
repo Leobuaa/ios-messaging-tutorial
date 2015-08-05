@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		078AE96A9CB4FC70EDF71106 /* libPods-Parse-Sinch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE47F36F3A730267228EF73 /* libPods-Parse-Sinch.a */; };
 		777E61681A651DE7000885EF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 777E61671A651DE7000885EF /* main.m */; };
 		777E616B1A651DE7000885EF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 777E616A1A651DE7000885EF /* AppDelegate.m */; };
 		777E61731A651DE7000885EF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 777E61721A651DE7000885EF /* Images.xcassets */; };
@@ -33,9 +32,12 @@
 		777E61B61A654909000885EF /* MNCDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 777E61B11A654909000885EF /* MNCDialogViewController.m */; };
 		777E61B71A654909000885EF /* MNCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 777E61B31A654909000885EF /* MNCLoginViewController.m */; };
 		777E61B91A65496B000885EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 777E61B81A65496B000885EF /* Main.storyboard */; };
+		A23FE3CF438EED7FACFBC4B3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCBC07E8D818D76E5AEA8F65 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0534024CCB96890EA02E216A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		075DB22EECF974FD7565101F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		4BE47F36F3A730267228EF73 /* libPods-Parse-Sinch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Parse-Sinch.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		545A333CFB4E5C8302DDC5E7 /* Pods-Parse-Sinch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Parse-Sinch.release.xcconfig"; path = "Pods/Target Support Files/Pods-Parse-Sinch/Pods-Parse-Sinch.release.xcconfig"; sourceTree = "<group>"; };
 		777E61621A651DE7000885EF /* ios-sinch-messaging-tutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-sinch-messaging-tutorial.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +73,7 @@
 		777E61B31A654909000885EF /* MNCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNCLoginViewController.m; sourceTree = "<group>"; };
 		777E61B81A65496B000885EF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		A2123AA1B7409657811B56C7 /* Pods-Parse-Sinch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Parse-Sinch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Parse-Sinch/Pods-Parse-Sinch.debug.xcconfig"; sourceTree = "<group>"; };
+		CCBC07E8D818D76E5AEA8F65 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,9 +95,9 @@
 				777E619E1A65222C000885EF /* Foundation.framework in Frameworks */,
 				777E619F1A65222C000885EF /* libsqlite3.dylib in Frameworks */,
 				777E61A01A65222C000885EF /* Social.framework in Frameworks */,
-				078AE96A9CB4FC70EDF71106 /* libPods-Parse-Sinch.a in Frameworks */,
 				777E618E1A6521C6000885EF /* Parse.framework in Frameworks */,
 				777E618D1A6521C6000885EF /* Bolts.framework in Frameworks */,
+				A23FE3CF438EED7FACFBC4B3 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +124,7 @@
 				777E618B1A6521C6000885EF /* Bolts.framework */,
 				777E618C1A6521C6000885EF /* Parse.framework */,
 				4BE47F36F3A730267228EF73 /* libPods-Parse-Sinch.a */,
+				CCBC07E8D818D76E5AEA8F65 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -130,6 +134,8 @@
 			children = (
 				A2123AA1B7409657811B56C7 /* Pods-Parse-Sinch.debug.xcconfig */,
 				545A333CFB4E5C8302DDC5E7 /* Pods-Parse-Sinch.release.xcconfig */,
+				0534024CCB96890EA02E216A /* Pods.debug.xcconfig */,
+				075DB22EECF974FD7565101F /* Pods.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -198,11 +204,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 777E61851A651DE8000885EF /* Build configuration list for PBXNativeTarget "ios-sinch-messaging-tutorial" */;
 			buildPhases = (
-				93F48160922AB65306CF5CE8 /* Check Pods Manifest.lock */,
+				2698A17EA8578CEDB6FF841B /* Check Pods Manifest.lock */,
 				777E615E1A651DE7000885EF /* Sources */,
 				777E615F1A651DE7000885EF /* Frameworks */,
 				777E61601A651DE7000885EF /* Resources */,
-				08356026B601D71EB7536937 /* Copy Pods Resources */,
+				4BA0A82A5BD635337AE754BB /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -260,22 +266,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		08356026B601D71EB7536937 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Parse-Sinch/Pods-Parse-Sinch-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		93F48160922AB65306CF5CE8 /* Check Pods Manifest.lock */ = {
+		2698A17EA8578CEDB6FF841B /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -288,6 +279,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4BA0A82A5BD635337AE754BB /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -398,7 +404,7 @@
 		};
 		777E61861A651DE8000885EF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A2123AA1B7409657811B56C7 /* Pods-Parse-Sinch.debug.xcconfig */;
+			baseConfigurationReference = 0534024CCB96890EA02E216A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = (
 					armv7s,
@@ -418,7 +424,7 @@
 		};
 		777E61871A651DE8000885EF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 545A333CFB4E5C8302DDC5E7 /* Pods-Parse-Sinch.release.xcconfig */;
+			baseConfigurationReference = 075DB22EECF974FD7565101F /* Pods.release.xcconfig */;
 			buildSettings = {
 				ARCHS = (
 					armv7s,
